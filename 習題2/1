@@ -1,0 +1,24 @@
+def my_permutations(elements):
+    """
+    Generate all permutations of a given list of elements.
+
+    :param elements: List of elements to permute.
+    :return: A list of permutations, where each permutation is represented as a list.
+    """
+    if len(elements) == 0:
+        return [[]]
+
+    result = []
+    for i, elem in enumerate(elements):
+        rest = elements[:i] + elements[i+1:]
+        for perm in my_permutations(rest):
+            result.append([elem] + perm)
+
+    return result
+
+# Example usage
+if __name__ == "__main__":
+    items = [1, 2, 3]
+    permutations = my_permutations(items)
+    for perm in permutations:
+        print(perm)
