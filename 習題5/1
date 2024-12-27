@@ -1,0 +1,28 @@
+import multiprocessing
+import time
+
+def target_function():
+    # 這是被判斷的程式，可能停或可能不會停
+    while True:
+        pass  # 無限循環，永不停止
+
+def does_program_halt(func, timeout=5):
+    """
+    嘗試在指定時間內判斷程式是否停止
+    :param func: 要測試的程式函式
+    :param timeout: 超時時間（秒）
+    :return: True（停止）或 False（可能不會停止）
+    """
+    process = multiprocessing.Process(target=func)
+    process.start()
+    process.join(timeout)  # 等待指定時間
+
+    if process.is_alive():
+        process.terminate()  # 超時後終止程式
+        process.join()
+        return False  # 程式未在指定時間內停止
+    return True  # 程式在指定時間內停止
+
+# 測試程式
+if __name__ == "__main__":
+    print("判斷結果:", does_program_halt(target_function))
