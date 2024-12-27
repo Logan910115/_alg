@@ -1,0 +1,20 @@
+# 使用查表法實現 power2n_d 函數
+cache = [None] * 10000  # 預先分配記憶體空間來儲存計算結果
+cache[0] = 1  # 定義 2^0 = 1
+cache[1] = 2  # 定義 2^1 = 2
+
+def power2n_d(n):
+    if n < 0:
+        raise ValueError("n 必須是非負整數")
+    
+    # 如果結果已經計算過，直接返回
+    if cache[n] is not None:
+        return cache[n]
+    
+    # 計算 2^n 的值並儲存到 cache
+    cache[n] = 2 * power2n_d(n - 1)
+    return cache[n]
+
+# 測試範例
+print(power2n_d(10))  # 應輸出 1024
+print(power2n_d(15))  # 應輸出 32768
